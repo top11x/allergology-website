@@ -700,7 +700,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        © Copyright Poradnia Alergologiczna. All Rights Reserved
+                        © Copyright Poradnia alergologiczna. Implemented by Kamil Janikowski.
                         <div class="credits">
                             <!--
                 All the links in the footer should remain intact.

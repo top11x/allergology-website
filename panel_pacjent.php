@@ -141,7 +141,6 @@
                                             <!-- WYNIKI BADAN -->
                                             <div class="tab-content">
                                                 <div class="tab-pane fade in active" id="home">
-                                                    <h4>Wyniki badania</h4>
                                                     <?php
                                                 require_once"connect.php";
                                                 $conn = new mysqli($host, $db_user, $db_password, $db_name);
@@ -150,287 +149,332 @@
                                                     printf("Connection failed: " . $conn->connect_error);
                                                     exit();
                                                 }
-                                                $sql = "SELECT leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige WHERE ID_user='".$_SESSION['ID']."' ";
+                                                $sql = "SELECT analiza, data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige WHERE ID_user='".$_SESSION['ID']."' ORDER BY data DESC ";
                                                 $result = $conn->query($sql);
                                                 if ($result->num_rows > 0) 
                                                 {
+                                                  if ($result->num_rows > 0) 
+                                                    {
                                                     while($row = $result->fetch_assoc()) 
                                                     {
+                                                        if($row["alternaria"]<0.3){$_SESSION['alt']='0';}
+                                                        if($row["alternaria"]>=0.3 && $row["alternaria"]<=0.7){$_SESSION['alt']='1';}
+                                                        if($row["alternaria"]>0.7 && $row["alternaria"]<=3.5){$_SESSION['alt']='2';}
+                                                        if($row["alternaria"]>3.5 && $row["alternaria"]<=17.5){$_SESSION['alt']='3';}
+                                                        if($row["alternaria"]>17.5 && $row["alternaria"]<=50){$_SESSION['alt']='4';}
+                                                        if($row["alternaria"]>50 && $row["alternaria"]<=100){$_SESSION['alt']='5';}
+                                                        if($row["alternaria"]>100){$_SESSION['alt']='6';}  
+                                                        
+                                                        if($row["leszczyna"]<0.3){$_SESSION['le']='0';}
+                                                        if($row["leszczyna"]>=0.3 && $row["leszczyna"]<=0.7){$_SESSION['le']='1';}
+                                                        if($row["leszczyna"]>0.7 && $row["leszczyna"]<=3.5){$_SESSION['le']='2';}
+                                                        if($row["leszczyna"]>3.5 && $row["leszczyna"]<=17.5){$_SESSION['le']='3';}
+                                                        if($row["leszczyna"]>17.5 && $row["leszczyna"]<=50){$_SESSION['le']='4';}
+                                                        if($row["leszczyna"]>50 && $row["leszczyna"]<=100){$_SESSION['le']='5';}
+                                                        if($row["leszczyna"]>100){$_SESSION['le']='6';}
+                                                        
+                                                        if($row["olsza"]<0.3){$_SESSION['ol']='0';}
+                                                        if($row["olsza"]>=0.3 && $row["olsza"]<=0.7){$_SESSION['ol']='1';}
+                                                        if($row["olsza"]>0.7 && $row["olsza"]<=3.5){$_SESSION['ol']='2';}
+                                                        if($row["olsza"]>3.5 && $row["olsza"]<=17.5){$_SESSION['ol']='3';}
+                                                        if($row["olsza"]>17.5 && $row["olsza"]<=50){$_SESSION['ol']='4';}
+                                                        if($row["olsza"]>50 && $row["olsza"]<=100){$_SESSION['ol']='5';}
+                                                        if($row["olsza"]>100){$_SESSION['ol']='6';} 
+                                                        
+                                                        if($row["brzoza"]<0.3){$_SESSION['br']='0';}
+                                                        if($row["brzoza"]>=0.3 && $row["brzoza"]<=0.7){$_SESSION['br']='1';}
+                                                        if($row["brzoza"]>0.7 && $row["brzoza"]<=3.5){$_SESSION['br']='2';}
+                                                        if($row["brzoza"]>3.5 && $row["brzoza"]<=17.5){$_SESSION['br']='3';}
+                                                        if($row["brzoza"]>17.5 && $row["brzoza"]<=50){$_SESSION['br']='4';}
+                                                        if($row["brzoza"]>50 && $row["brzoza"]<=100){$_SESSION['br']='5';}
+                                                        if($row["brzoza"]>100){$_SESSION['br']='6';} 
+                                                        
+                                                        if($row["topola"]<0.3){$_SESSION['to']='0';}
+                                                        if($row["topola"]>=0.3 && $row["topola"]<=0.7){$_SESSION['to']='1';}
+                                                        if($row["topola"]>0.7 && $row["topola"]<=3.5){$_SESSION['to']='2';}
+                                                        if($row["topola"]>3.5 && $row["topola"]<=17.5){$_SESSION['to']='3';}
+                                                        if($row["topola"]>17.5 && $row["topola"]<=50){$_SESSION['to']='4';}
+                                                        if($row["topola"]>50 && $row["topola"]<=100){$_SESSION['to']='5';}
+                                                        if($row["topola"]>100){$_SESSION['to']='6';} 
+                                                        
+                                                        if($row["dab"]<0.3){$_SESSION['da']='0';}
+                                                        if($row["dab"]>=0.3 && $row["dab"]<=0.7){$_SESSION['da']='1';}
+                                                        if($row["dab"]>0.7 && $row["dab"]<=3.5){$_SESSION['da']='2';}
+                                                        if($row["dab"]>3.5 && $row["dab"]<=17.5){$_SESSION['da']='3';}
+                                                        if($row["dab"]>17.5 && $row["dab"]<=50){$_SESSION['da']='4';}
+                                                        if($row["dab"]>50 && $row["dab"]<=100){$_SESSION['da']='5';}
+                                                        if($row["dab"]>100){$_SESSION['da']='6';} 
+                                                        
+                                                        if($row["trawy"]<0.3){$_SESSION['tr']='0';}
+                                                        if($row["trawy"]>=0.3 && $row["trawy"]<=0.7){$_SESSION['tr']='1';}
+                                                        if($row["trawy"]>0.7 && $row["trawy"]<=3.5){$_SESSION['tr']='2';}
+                                                        if($row["trawy"]>3.5 && $row["trawy"]<=17.5){$_SESSION['tr']='3';}
+                                                        if($row["trawy"]>17.5 && $row["trawy"]<=50){$_SESSION['tr']='4';}
+                                                        if($row["trawy"]>50 && $row["trawy"]<=100){$_SESSION['tr']='5';}
+                                                        if($row["trawy"]>100){$_SESSION['tr']='6';} 
+                                                        
+                                                        if($row["babka_lancetowata"]<0.3){$_SESSION['bab']='0';}
+                                                        if($row["babka_lancetowata"]>=0.3 && $row["babka_lancetowata"]<=0.7){$_SESSION['bab']='1';}
+                                                        if($row["babka_lancetowata"]>0.7 && $row["babka_lancetowata"]<=3.5){$_SESSION['bab']='2';}
+                                                        if($row["babka_lancetowata"]>3.5 && $row["babka_lancetowata"]<=17.5){$_SESSION['bab']='3';}
+                                                        if($row["babka_lancetowata"]>17.5 && $row["babka_lancetowata"]<=50){$_SESSION['bab']='4';}
+                                                        if($row["babka_lancetowata"]>50 && $row["babka_lancetowata"]<=100){$_SESSION['bab']='5';}
+                                                        if($row["babka_lancetowata"]>100){$_SESSION['bab']='6';} 
+                                                        
+                                                        if($row["szczaw"]<0.3){$_SESSION['sz']='0';}
+                                                        if($row["szczaw"]>=0.3 && $row["szczaw"]<=0.7){$_SESSION['sz']='1';}
+                                                        if($row["szczaw"]>0.7 && $row["szczaw"]<=3.5){$_SESSION['sz']='2';}
+                                                        if($row["szczaw"]>3.5 && $row["szczaw"]<=17.5){$_SESSION['sz']='3';}
+                                                        if($row["szczaw"]>17.5 && $row["szczaw"]<=50){$_SESSION['sz']='4';}
+                                                        if($row["szczaw"]>50 && $row["szczaw"]<=100){$_SESSION['sz']='5';}
+                                                        if($row["szczaw"]>100){$_SESSION['sz']='6';} 
+                                                        
+                                                        if($row["pokrzywa"]<0.3){$_SESSION['pok']='0';}
+                                                        if($row["pokrzywa"]>=0.3 && $row["pokrzywa"]<=0.7){$_SESSION['pok']='1';}
+                                                        if($row["pokrzywa"]>0.7 && $row["pokrzywa"]<=3.5){$_SESSION['pok']='2';}
+                                                        if($row["pokrzywa"]>3.5 && $row["pokrzywa"]<=17.5){$_SESSION['pok']='3';}
+                                                        if($row["pokrzywa"]>17.5 && $row["pokrzywa"]<=50){$_SESSION['pok']='4';}
+                                                        if($row["pokrzywa"]>50 && $row["pokrzywa"]<=100){$_SESSION['pok']='5';}
+                                                        if($row["pokrzywa"]>100){$_SESSION['pok']='6';} 
+                                                        
+                                                        if($row["komosa"]<0.3){$_SESSION['ko']='0';}
+                                                        if($row["komosa"]>=0.3 && $row["komosa"]<=0.7){$_SESSION['ko']='1';}
+                                                        if($row["komosa"]>0.7 && $row["komosa"]<=3.5){$_SESSION['ko']='2';}
+                                                        if($row["komosa"]>3.5 && $row["komosa"]<=17.5){$_SESSION['ko']='3';}
+                                                        if($row["komosa"]>17.5 && $row["komosa"]<=50){$_SESSION['ko']='4';}
+                                                        if($row["komosa"]>50 && $row["komosa"]<=100){$_SESSION['ko']='5';}
+                                                        if($row["komosa"]>100){$_SESSION['ko']='6';} 
+                                                        
+                                                        if($row["bylica"]<0.3){$_SESSION['by']='0';}
+                                                        if($row["bylica"]>=0.3 && $row["bylica"]<=0.7){$_SESSION['by']='1';}
+                                                        if($row["bylica"]>0.7 && $row["bylica"]<=3.5){$_SESSION['by']='2';}
+                                                        if($row["bylica"]>3.5 && $row["bylica"]<=17.5){$_SESSION['by']='3';}
+                                                        if($row["bylica"]>17.5 && $row["bylica"]<=50){$_SESSION['by']='4';}
+                                                        if($row["bylica"]>50 && $row["bylica"]<=100){$_SESSION['by']='5';}
+                                                        if($row["bylica"]>100){$_SESSION['by']='6';} 
+                                                        
+                                                        if($row["ambrozja"]<0.3){$_SESSION['am']='0';}
+                                                        if($row["ambrozja"]>=0.3 && $row["ambrozja"]<=0.7){$_SESSION['am']='1';}
+                                                        if($row["ambrozja"]>0.7 && $row["ambrozja"]<=3.5){$_SESSION['am']='2';}
+                                                        if($row["ambrozja"]>3.5 && $row["ambrozja"]<=17.5){$_SESSION['am']='3';}
+                                                        if($row["ambrozja"]>17.5 && $row["ambrozja"]<=50){$_SESSION['am']='4';}
+                                                        if($row["ambrozja"]>50 && $row["ambrozja"]<=100){$_SESSION['am']='5';}
+                                                        if($row["ambrozja"]>100){$_SESSION['am']='6';} 
+                                                        
+                                                        if($row["cladosporium"]<0.3){$_SESSION['cl']='0';}
+                                                        if($row["cladosporium"]>=0.3 && $row["cladosporium"]<=0.7){$_SESSION['cl']='1';}
+                                                        if($row["cladosporium"]>0.7 && $row["cladosporium"]<=3.5){$_SESSION['cl']='2';}
+                                                        if($row["cladosporium"]>3.5 && $row["cladosporium"]<=17.5){$_SESSION['cl']='3';}
+                                                        if($row["cladosporium"]>17.5 && $row["cladosporium"]<=50){$_SESSION['cl']='4';}
+                                                        if($row["cladosporium"]>50 && $row["cladosporium"]<=100){$_SESSION['cl']='5';}
+                                                        if($row["cladosporium"]>100){$_SESSION['cl']='6';}  
+                                                        
+                                                        echo "<br/><h3>Badanie z dnia:&nbsp;<mark>".$row["data"]."</mark></h3>";
                                                         echo "<table><tr><th>Alergeny</th><th>Stężenia &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Klasa</th></tr>"; 
                                                         echo "<tr><td>- Leszczyna</td><td>".$row["leszczyna"]." kU/I</td><td>".$_SESSION["le"]."</td></tr>";
-                                                            if($row["leszczyna"]<0.3){
-                                                                $_SESSION['le']='0';}
-                                                            if($row["leszczyna"]>=0.3 && $row["leszczyna"]<=0.7){
-                                                                $_SESSION['le']='1';}
-                                                            if($row["leszczyna"]>0.7 && $row["leszczyna"]<=3.5){
-                                                                $_SESSION['le']='2';}
-                                                            if($row["leszczyna"]>3.5 && $row["leszczyna"]<=17.5){
-                                                                $_SESSION['le']='3';}
-                                                            if($row["leszczyna"]>17.5 && $row["leszczyna"]<=50){
-                                                                $_SESSION['le']='4';}
-                                                            if($row["leszczyna"]>50){
-                                                                $_SESSION['le']='5';}
+                                                         
                                                         echo "<tr><td>- Olsza</td><td>".$row["olsza"]." kU/I</td><td>".$_SESSION['ol']."</td></tr>";
-                                                            if($row["olsza"]<0.3){
-                                                                $_SESSION['ol']='0';}
-                                                            if($row["olsza"]>=0.3 && $row["olsza"]<=0.7){
-                                                                $_SESSION['ol']='1';}
-                                                            if($row["olsza"]>0.7 && $row["olsza"]<=3.5){
-                                                                $_SESSION['ol']='2';}
-                                                            if($row["olsza"]>3.5 && $row["olsza"]<=17.5){
-                                                                $_SESSION['ol']='3';}
-                                                            if($row["olsza"]>17.5 && $row["olsza"]<=50){
-                                                                $_SESSION['ol']='4';}
-                                                            if($row["olsza"]>50){
-                                                                $_SESSION['ol']='5';} 
+                                                            
                                                         echo "<tr><td>- Brzoza</td><td>".$row["brzoza"]." kU/I</td><td>".$_SESSION['br']."</td></tr>";
-                                                            if($row["brzoza"]<0.3){
-                                                                $_SESSION['br']='0';}
-                                                            if($row["brzoza"]>=0.3 && $row["brzoza"]<=0.7){
-                                                                $_SESSION['br']='1';}
-                                                            if($row["brzoza"]>0.7 && $row["brzoza"]<=3.5){
-                                                                $_SESSION['br']='2';}
-                                                            if($row["brzoza"]>3.5 && $row["brzoza"]<=17.5){
-                                                                $_SESSION['br']='3';}
-                                                            if($row["brzoza"]>17.5 && $row["brzoza"]<=50){
-                                                                $_SESSION['br']='4';}
-                                                            if($row["brzoza"]>50){
-                                                                $_SESSION['br']='5';} 
+                                                           
                                                         echo "<tr><td>- Topola</td><td>".$row["topola"]." kU/I</td><td>".$_SESSION['to']."</td></tr>";
-                                                            if($row["topola"]<0.3){
-                                                                $_SESSION['to']='0';}
-                                                            if($row["topola"]>=0.3 && $row["topola"]<=0.7){
-                                                                $_SESSION['to']='1';}
-                                                            if($row["topola"]>0.7 && $row["topola"]<=3.5){
-                                                                $_SESSION['to']='2';}
-                                                            if($row["topola"]>3.5 && $row["topola"]<=17.5){
-                                                                $_SESSION['to']='3';}
-                                                            if($row["topola"]>17.5 && $row["topola"]<=50){
-                                                                $_SESSION['to']='4';}
-                                                            if($row["topola"]>50){
-                                                                $_SESSION['to']='5';} 
+                                                           
                                                         echo "<tr><td>- Dąb</td><td>".$row["dab"]." kU/I</td><td>".$_SESSION['da']."</td></tr>";
-                                                            if($row["dab"]<0.3){
-                                                                $_SESSION['da']='0';}
-                                                            if($row["dab"]>=0.3 && $row["dab"]<=0.7){
-                                                                $_SESSION['da']='1';}
-                                                            if($row["dab"]>0.7 && $row["dab"]<=3.5){
-                                                                $_SESSION['da']='2';}
-                                                            if($row["dab"]>3.5 && $row["dab"]<=17.5){
-                                                                $_SESSION['da']='3';}
-                                                            if($row["dab"]>17.5 && $row["dab"]<=50){
-                                                                $_SESSION['da']='4';}
-                                                            if($row["dab"]>50){
-                                                                $_SESSION['da']='5';} 
+                                                            
                                                         echo "<tr><td>- Trawy</td><td>".$row["trawy"]." kU/I</td><td>".$_SESSION['tr']."</td></tr>";
-                                                            if($row["trawy"]<0.3){
-                                                                $_SESSION['tr']='0';}
-                                                            if($row["trawy"]>=0.3 && $row["trawy"]<=0.7){
-                                                                $_SESSION['tr']='1';}
-                                                            if($row["trawy"]>0.7 && $row["trawy"]<=3.5){
-                                                                $_SESSION['tr']='2';}
-                                                            if($row["trawy"]>3.5 && $row["trawy"]<=17.5){
-                                                                $_SESSION['tr']='3';}
-                                                            if($row["trawy"]>17.5 && $row["trawy"]<=50){
-                                                                $_SESSION['tr']='4';}
-                                                            if($row["trawy"]>50){
-                                                                $_SESSION['tr']='5';} 
+                                                            
                                                         echo "<tr><td>- Babka lancetowata</td><td>".$row["babka_lancetowata"]." kU/I</td><td>".$_SESSION['bab']."</td></tr>";
-                                                            if($row["babka_lancetowata"]<0.3){
-                                                                $_SESSION['bab']='0';}
-                                                            if($row["babka_lancetowata"]>=0.3 && $row["babka_lancetowata"]<=0.7){
-                                                                $_SESSION['bab']='1';}
-                                                            if($row["babka_lancetowata"]>0.7 && $row["babka_lancetowata"]<=3.5){
-                                                                $_SESSION['bab']='2';}
-                                                            if($row["babka_lancetowata"]>3.5 && $row["babka_lancetowata"]<=17.5){
-                                                                $_SESSION['bab']='3';}
-                                                            if($row["babka_lancetowata"]>17.5 && $row["babka_lancetowata"]<=50){
-                                                                $_SESSION['bab']='4';}
-                                                            if($row["babka_lancetowata"]>50){
-                                                                $_SESSION['bab']='5';} 
+                                                         
                                                         echo "<tr><td>- Szczaw</td><td>".$row["szczaw"]." kU/I</td><td>".$_SESSION['sz']."</td></tr>";
-                                                            if($row["szczaw"]<0.3){
-                                                                $_SESSION['sz']='0';}
-                                                            if($row["szczaw"]>=0.3 && $row["szczaw"]<=0.7){
-                                                                $_SESSION['sz']='1';}
-                                                            if($row["szczaw"]>0.7 && $row["szczaw"]<=3.5){
-                                                                $_SESSION['sz']='2';}
-                                                            if($row["szczaw"]>3.5 && $row["szczaw"]<=17.5){
-                                                                $_SESSION['sz']='3';}
-                                                            if($row["szczaw"]>17.5 && $row["szczaw"]<=50){
-                                                                $_SESSION['sz']='4';}
-                                                            if($row["szczaw"]>50){
-                                                                $_SESSION['sz']='5';} 
+                                                         
                                                         echo "<tr><td>- Pokrzywa</td><td>".$row["pokrzywa"]." kU/I</td><td>".$_SESSION['pok']."</td></tr>";
-                                                            if($row["pokrzywa"]<0.3){
-                                                                $_SESSION['pok']='0';}
-                                                            if($row["pokrzywa"]>=0.3 && $row["pokrzywa"]<=0.7){
-                                                                $_SESSION['pok']='1';}
-                                                            if($row["pokrzywa"]>0.7 && $row["pokrzywa"]<=3.5){
-                                                                $_SESSION['pok']='2';}
-                                                            if($row["pokrzywa"]>3.5 && $row["pokrzywa"]<=17.5){
-                                                                $_SESSION['pok']='3';}
-                                                            if($row["pokrzywa"]>17.5 && $row["pokrzywa"]<=50){
-                                                                $_SESSION['pok']='4';}
-                                                            if($row["pokrzywa"]>50){
-                                                                $_SESSION['pok']='5';} 
+                                                           
                                                         echo "<tr><td>- Komosa</td><td>".$row["komosa"]." kU/I</td><td>".$_SESSION['ko']."</td></tr>";
-                                                            if($row["komosa"]<0.3){
-                                                                $_SESSION['ko']='0';}
-                                                            if($row["komosa"]>=0.3 && $row["komosa"]<=0.7){
-                                                                $_SESSION['ko']='1';}
-                                                            if($row["komosa"]>0.7 && $row["komosa"]<=3.5){
-                                                                $_SESSION['ko']='2';}
-                                                            if($row["komosa"]>3.5 && $row["komosa"]<=17.5){
-                                                                $_SESSION['ko']='3';}
-                                                            if($row["komosa"]>17.5 && $row["komosa"]<=50){
-                                                                $_SESSION['ko']='4';}
-                                                            if($row["komosa"]>50){
-                                                                $_SESSION['ko']='5';} 
+                                                          
                                                         echo "<tr><td>- Bylica</td><td>".$row["bylica"]." kU/I</td><td>".$_SESSION['by']."</td></tr>";
-                                                            if($row["bylica"]<0.3){
-                                                                $_SESSION['by']='0';}
-                                                            if($row["bylica"]>=0.3 && $row["bylica"]<=0.7){
-                                                                $_SESSION['by']='1';}
-                                                            if($row["bylica"]>0.7 && $row["bylica"]<=3.5){
-                                                                $_SESSION['by']='2';}
-                                                            if($row["bylica"]>3.5 && $row["bylica"]<=17.5){
-                                                                $_SESSION['by']='3';}
-                                                            if($row["bylica"]>17.5 && $row["bylica"]<=50){
-                                                                $_SESSION['by']='4';}
-                                                            if($row["bylica"]>50){
-                                                                $_SESSION['by']='5';} 
+                                                           
                                                         echo "<tr><td>- Ambrozja</td><td>".$row["ambrozja"]." kU/I</td><td>".$_SESSION['am']."</td></tr>";
-                                                            if($row["ambrozja"]<0.3){
-                                                                $_SESSION['am']='0';}
-                                                            if($row["ambrozja"]>=0.3 && $row["ambrozja"]<=0.7){
-                                                                $_SESSION['am']='1';}
-                                                            if($row["ambrozja"]>0.7 && $row["ambrozja"]<=3.5){
-                                                                $_SESSION['am']='2';}
-                                                            if($row["ambrozja"]>3.5 && $row["ambrozja"]<=17.5){
-                                                                $_SESSION['am']='3';}
-                                                            if($row["ambrozja"]>17.5 && $row["ambrozja"]<=50){
-                                                                $_SESSION['am']='4';}
-                                                            if($row["ambrozja"]>50){
-                                                                $_SESSION['am']='5';} 
+                                                        
                                                         echo "<tr><td>- Cladosporium</td><td>".$row["cladosporium"]." kU/I</td><td>".$_SESSION['cl']."</td></tr>";
-                                                            if($row["cladosporium"]<0.3){
-                                                                $_SESSION['cl']='0';}
-                                                            if($row["cladosporium"]>=0.3 && $row["cladosporium"]<=0.7){
-                                                                $_SESSION['cl']='1';}
-                                                            if($row["cladosporium"]>0.7 && $row["cladosporium"]<=3.5){
-                                                                $_SESSION['cl']='2';}
-                                                            if($row["cladosporium"]>3.5 && $row["cladosporium"]<=17.5){
-                                                                $_SESSION['cl']='3';}
-                                                            if($row["cladosporium"]>17.5 && $row["cladosporium"]<=50){
-                                                                $_SESSION['cl']='4';}
-                                                            if($row["cladosporium"]>50){
-                                                                $_SESSION['cl']='5';} 
-                                                        echo "<tr><td>- Alternaria</td><td>".$row["alternaria"]." kU/I</td><td>".$_SESSION['alt']."</td></tr></table>";
-                                                            if($row["alternaria"]<0.3){
-                                                                $_SESSION['alt']='0';}
-                                                            if($row["alternaria"]>=0.3 && $row["alternaria"]<=0.7){
-                                                                $_SESSION['alt']='1';}
-                                                            if($row["alternaria"]>0.7 && $row["alternaria"]<=3.5){
-                                                                $_SESSION['alt']='2';}
-                                                            if($row["alternaria"]>3.5 && $row["alternaria"]<=17.5){
-                                                                $_SESSION['alt']='3';}
-                                                            if($row["alternaria"]>17.5 && $row["alternaria"]<=50){
-                                                                $_SESSION['alt']='4';}
-                                                            if($row["alternaria"]>50){
-                                                                $_SESSION['alt']='5';}  ?>
-                                                    <br />
-                                                    <h4>Spostrzeżenia lekarza dotyczące badania</h4>
-                                                    <?php
-                                                        $sql = "SELECT analiza FROM ige WHERE ID_user='".$_SESSION['ID']."' ";
-                                                        $result = $conn->query($sql);
-                                                        if ($result->num_rows > 0) 
-                                                        {
-                                                            while($row = $result->fetch_assoc()) 
-                                                            {
-                                                                echo "<p> - " . $row["analiza"]. "</p><br/>";
-                                                            }
-                                                        }
-                                                    }
-                                                } 
-                                                else 
-                                                {
-                                                    echo "<p> - Brak danych.</p><br/>";                                  
-                                                }
-                                                ?>
-                                                    <h4>Objaśnienie klas</h4>
+                                                          
+                                                        echo "<tr><td>- Alternaria</td><td>".$row["alternaria"]." kU/I</td><td>".$_SESSION['alt']."</td></tr></table>";    
+                                                        
+                                                        echo "<h4>Spostrzeżenia lekarza dotyczące tego badania</h4>";
+
+                                                        echo "<p> - " . $row["analiza"]. "</p><br/>";
+
+                                                    }?>
+                                                        
+                                                <br />
+                                                <!--<h4>Objaśnienie klas</h4>-->
                                                     <div class="panel-body">
-                                                        <div class="table-responsive table-bordered">
+                                                        <div class="table-responsive table-bordered col-md-11">
                                                             <table class="table">
                                                                 <thead>
                                                                     <tr>
-                                                                        <th>Stężenie [kU/I]</th>
-                                                                        <th>Klasa</th>
-                                                                        <th>Objaśnienie</th>
+                                                                        <th>Klasa specyficznego IgE</th>
+                                                                        <th>kU/I</th>
+                                                                        <th>Znaczenie</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
                                                                     <tr>
-                                                                        <td>mniej niż 0,3</td>
                                                                         <td>0</td>
-                                                                        <td>Nie udokumentowano specyficznych przeciwciał.</td>
+                                                                        <td>0,35</td>
+                                                                        <td>Wynik negatywny.</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>0,3 - 0,7</td>
                                                                         <td>1</td>
-                                                                        <td>Bardzo niskie miano przeciwciał, często bez występujących objawów klinicznych.</td>
+                                                                        <td>0,35 - 0,7</td>
+                                                                        <td>Wynik niski.</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>0,7 - 3,5</td>
                                                                         <td>2</td>
-                                                                        <td>Niskie miano przeciwciał, istniejące uczulenie, często z objawami klinicznymi.</td>
+                                                                        <td>0,7 - 3,5</td>
+                                                                        <td>Wynik umiarkowany.</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>3,5 - 17,5</td>
                                                                         <td>3</td>
-                                                                        <td>Wykryto określone przeciwciała, często występują objawy kliniczne.</td>
+                                                                        <td>3,5 - 17,5</td>
+                                                                        <td>Wynik wysoki.</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>17,5 - 50</td>
                                                                         <td>4</td>
-                                                                        <td>Silna reakcja przeciwciał, niemalzawsze ze spółistniejącymi objawami kliniczymi.</td>
+                                                                        <td>17,5 - 50</td>
+                                                                        <td>Wynik bardzo wysoki.</td>
                                                                     </tr>
                                                                     <tr>
-                                                                        <td>więcej niż 50</td>
                                                                         <td>5</td>
-                                                                        <td>Bardzo wysokie miano przeciwciał.</td>
+                                                                        <td>50 - 100</td>
+                                                                        <td>Wynik bardzo wysoki.</td>
+                                                                    </tr>    
+                                                                    <tr>
+                                                                        <td>6</td>
+                                                                        <td>100 i więcej</td>
+                                                                        <td>Wynik bardzo wysoki.</td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
+                                                        <label class="control-label col-md-12"></label>
+                                                        <p class="col-md-12">Źródło: Wojciech Mędrala, Podstawy alergologii, Wrocław, 2006, Górnicki Wydawnictwo Medyczne, s. 197.</p>
                                                     </div>
+                                                <?php 
+                                                    }
+                                                }
+                                                else 
+                                                {
+                                                    echo "<p> - Brak danych.</p><br/>"; ?>
+                                                <?php                                   
+                                                }
+                                                ?>
                                                 </div>
                                                 <!-- ANALIZA -->
-                                                <div class="tab-pane fade" id="profile">
-                                                    <h4>Analiza</h4>
-                                                    <p>Będzie działać kiedyś.</p>
-                                                    <?php
-                                                $sql = "SELECT leszczyna FROM ige, users WHERE ID_user='".$_SESSION['ID']."' ";
+                                                <div class="tab-pane fade" id="profile"> <!-- ANALIZA @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                                                <?php
+                                                $sql = "SELECT data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige, users WHERE ID_user='".$_SESSION['ID']."' ORDER BY data DESC LIMIT 1";
                                                 $result = $conn->query($sql);
                                                 if ($result->num_rows > 0) 
                                                 {
                                                     while($row = $result->fetch_assoc()) 
                                                     {
-                                                        echo "<p> - Leszczyna: " . $row["leszczyna"]. " <br/></p>";
-                                                        if($row["leszczyna"]>1)
-                                                        {
-                                                            echo "gut gut";
-                                                        }
+                                                        echo "<br/><h3>Komputerowa analiza ostatnich wykonanych wyników badań z dnia: <mark>".$row["data"]."</mark></h3>";
+                                                        echo "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam illum itaque est tempore sit deleniti, magni harum vel maxime, possimus natus tempora aliquam doloremque tenetur quos eaque. Dolorem, dolorum, saepe!</p>";
+
+                                                        ?>
+                                                        <div class="panel-body">
+                                                        <div class="row">
+                                                            <div class="col-md-4 ">
+                                                                <div class="alert alert-danger text-center">
+                                                                    <h4>Wysokie stężenie alergenu</h4> 
+                                                                    <hr />
+                                                                    <h4>Bardzo wysokie prawdopodobieństwo wystąpienia objawów uczulenia</h4> 
+                                                                    <hr />
+                                                                    <h4>Alergeny:</h4> 
+                                                                    <?php 
+                                                                    if($row["leszczyna"]>=17.5){echo "<p>Leszczyna</p>"; }
+                                                                    if($row["olsza"]>=17.5){echo "<p>Olsza</p>"; }
+                                                                    if($row["brzoza"]>=17.5){echo "<p>Brzoza</p>"; }
+                                                                    if($row["topola"]>=17.5){echo "<p>Topola</p>"; }
+                                                                    if($row["dab"]>=17.5){echo "<p>Dab</p>"; }
+                                                                    if($row["trawy"]>=17.5){echo "<p>Trawy</p>"; }
+                                                                    if($row["babka_lancetowata"]>=17.5){echo "<p>Babka Lancetowata</p>"; }
+                                                                    if($row["szczaw"]>=17.5){echo "<p>Szczaw</p>"; }
+                                                                    if($row["pokrzywa"]>=17.5){echo "<p>Pokrzywa</p>"; }
+                                                                    if($row["komosa"]>=17.5){echo "<p>Komosa</p>"; }
+                                                                    if($row["bylica"]>=17.5){echo "<p>Bylica</p>"; }
+                                                                    if($row["ambrozja"]>=17.5){echo "<p>Ambrozja</p>"; }
+                                                                    if($row["cladosporium"]>=17.5){echo "<p>Cladosporium</p>"; }
+                                                                    if($row["alternaria"]>=17.5){echo "<p>Alternaria</p>"; }
+                                                                    ?>
+                                                                </div>
+                                                            </div>
+             
+                                                            <div class="col-md-4 ">
+                                                                <div class="alert alert-info text-center">
+                                                                    <h4>Umiarkowane stężenie alergenu</h4> 
+                                                                    <hr />
+                                                                    <h4>Niskie prawdopodobieństwo wystąpienia objawów uczulenia</h4> 
+                                                                    <hr />
+                                                                    <h4>Alergeny:</h4>
+                                                                    <?php 
+                                                                    if($row["leszczyna"]>0.35 && $row["leszczyna"]<17.5){echo "<p>Leszczyna</p>"; }
+                                                                    if($row["olsza"]>0.35 && $row["olsza"]<17.5){echo "<p>Olsza</p>"; }
+                                                                    if($row["brzoza"]>0.35 && $row["brzoza"]<17.5){echo "<p>Brzoza</p>"; }
+                                                                    if($row["topola"]>0.35 && $row["topola"]<17.5){echo "<p>Topola</p>"; }
+                                                                    if($row["dab"]>0.35 && $row["dab"]<17.5){echo "<p>Dab</p>"; }
+                                                                    if($row["trawy"]>0.35 && $row["trawy"]<17.5){echo "<p>Trawy</p>"; }
+                                                                    if($row["babka_lancetowata"]>0.35 && $row["babka_lancetowata"]<17.5){echo "<p>Babka Lancetowata</p>"; }
+                                                                    if($row["szczaw"]>0.35 && $row["szczaw"]<17.5){echo "<p>Szczaw</p>"; }
+                                                                    if($row["pokrzywa"]>0.35 && $row["pokrzywa"]<17.5){echo "<p>Pokrzywa</p>"; }
+                                                                    if($row["komosa"]>0.35 && $row["komosa"]<17.5){echo "<p>Komosa</p>"; }
+                                                                    if($row["bylica"]>0.35 && $row["bylica"]<17.5){echo "<p>Bylica</p>"; }
+                                                                    if($row["ambrozja"]>0.35 && $row["ambrozja"]<17.5){echo "<p>Ambrozja</p>"; }
+                                                                    if($row["cladosporium"]>0.35 && $row["cladosporium"]<17.5){echo "<p>Cladosporium</p>"; }
+                                                                    if($row["alternaria"]>0.35 && $row["alternaria"]<17.5){echo "<p>Alternaria</p>"; }
+                                                                    ?> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 ">
+                                                                <div class="alert alert-success text-center">
+                                                                    <h4>Brak stężenia alergenu</h4> <!-- brak alergi do 0,35 -->
+                                                                    <hr />
+                                                                    <h4>Wynik negatywny. Brak uczulenia</h4> 
+                                                                    <hr />
+                                                                    <h4>Alergeny:</h4>
+                                                                    <?php 
+                                                                    if($row["leszczyna"]<=0.35){echo "<p>Leszczyna</p>"; }
+                                                                    if($row["olsza"]<=0.35){echo "<p>Olsza</p>"; }
+                                                                    if($row["brzoza"]<=0.35){echo "<p>Brzoza</p>"; }
+                                                                    if($row["topola"]<=0.35){echo "<p>Topola</p>"; }
+                                                                    if($row["dab"]<=0.35){echo "<p>Dab</p>"; }
+                                                                    if($row["trawy"]<=0.35){echo "<p>Trawy</p>"; }
+                                                                    if($row["babka_lancetowata"]<=0.35){echo "<p>Babka Lancetowata</p>"; }
+                                                                    if($row["szczaw"]<=0.35){echo "<p>Szczaw</p>"; }
+                                                                    if($row["pokrzywa"]<=0.35){echo "<p>Pokrzywa</p>"; }
+                                                                    if($row["komosa"]<=0.35){echo "<p>Komosa</p>"; }
+                                                                    if($row["bylica"]<=0.35){echo "<p>Bylica</p>"; }
+                                                                    if($row["ambrozja"]<=0.35){echo "<p>Ambrozja</p>"; }
+                                                                    if($row["cladosporium"]<=0.35){echo "<p>Cladosporium</p>"; }
+                                                                    if($row["alternaria"]<=0.35){echo "<p>Alternaria</p>"; }
+                                                                    ?> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <?php
                                                     }
                                                 } else 
                                                 {
                                                     echo "<p> - Brak analizy.</p><br/>";                                 
                                                 }
                                                 ?>
+                                          
+                                                
                                                 </div>
                                                 <!-- WNIOSKI LEKARZA -->
                                                 <div class="tab-pane fade" id="messages">
-                                                    <h4>Wnioski lekarza</h4>
+                                                <h3>Wnioski lekarza</h3>
                                                     <?php
                                                 $conn = new mysqli($host, $db_user, $db_password, $db_name);
                                                 if ($conn->connect_error) 
@@ -521,7 +565,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        © Copyright Medilab Theme. All Rights Reserved
+                        © Copyright Poradnia alergologiczna. Implemented by Kamil Janikowski.
                         <div class="credits">
                             <!--
                 All the links in the footer should remain intact.

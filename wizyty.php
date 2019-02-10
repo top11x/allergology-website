@@ -157,8 +157,8 @@ if(isset($_POST['submit']))
                                     </div>
                                     <div class="more-features-box-text-description h4">
                                         <h3>Umów się na badanie specialistyczne lub na konsultacje z jednym z naszych lekarzy.</h3>
-                                            <p>Poniżej możesz dokonać rejestracji na określone badanie. Najpierw wybierz rodzaj badania a potem termin w jakim zostanie ono wykonane. W polu termin format daty i czasu wygląda następująco:<br/><h4>Rok-Miesiąc-Dzień Godzina-Minuta-Sekunda</h4></p>
-                                            <p>Proszę uwzględnić godziny pracy naszej poradni, nieprawidłowo wprowadzony czas wizyty zostanie pominięty!</p><br/>
+                                            <p>Poniżej możesz dokonać rejestracji na określone badanie. Najpierw wybierz rodzaj badania a potem termin w jakim zostanie ono wykonane.</p>
+                                            <h4>Proszę uwzględnić dni oraz godziny pracy naszej poradni, nieprawidłowo wprowadzony czas wizyty zostanie pominięty!</h4><br/>
                                             <form action="<?php ?>" method="post" class="col-sm-4">
                                                 <h4>Wybierz rodzaj badania:</h4>
                                                 <select input type="text" id="Booking" class=" btn btn-default dropdown-toggle" data-toggle="dropdown" name="TypeApp" value="">
@@ -167,7 +167,7 @@ if(isset($_POST['submit']))
                                                 </select>                       
                                                 <h4><br/>Wybierz godzinę:</h4>
                                                 <div class="input">
-                                                <input type="text" id="DateTime" class="control-label form-control" placeholder="RRRR-MM-DD GG-MM-SS" name="DateTime" value=""><br/>
+                                                <input type="datetime-local" id="DateTime" step="1200" class="control-label form-control" name="DateTime"><br/>
                                                 <input type="submit" class="btn btn-form" name="submit" value="Umów badanie">
                                                     <?php if(isset($_SESSION['yesregistration']))
                                                     {
@@ -175,7 +175,6 @@ if(isset($_POST['submit']))
                                                         unset($_SESSION['yesregistration']);
                                                     } ?>    
                                                 </div>
-                                            </form>
                                                 <div class="info col-sm-10" role="alert"><br/>
                                                     <?php  
                                                     if(isset($result))
@@ -185,6 +184,8 @@ if(isset($_POST['submit']))
                                                         }
                                                     ?>    
                                                 </div>
+                                               
+                                            </form>
                                       </div>
                                 </div>
                             </div>
@@ -251,7 +252,7 @@ if(isset($_POST['submit']))
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        © Copyright Medilab Theme. All Rights Reserved
+                        © Copyright Poradnia alergologiczna. Implemented by Kamil Janikowski.
                         <div class="credits">
                             <!--
                 All the links in the footer should remain intact.

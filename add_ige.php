@@ -28,6 +28,7 @@
         $cladosporium=$_POST['cladosporium'];
         $alternaria=$_POST['alternaria'];
         $analiza=$_POST['analiza'];
+        $date=$_POST['date'];
 
         $leszczyna = str_replace(",",".",$leszczyna); //zamiana przecinki na kropki
         $olsza = str_replace(",",".",$olsza); 
@@ -44,7 +45,7 @@
         $cladosporium = str_replace(",",".",$cladosporium); 
         $alternaria = str_replace(",",".",$alternaria); 
 
-        if((strlen($leszczyna)==0) || (strlen($olsza)==0) || (strlen($brzoza)==0) || (strlen($topola)==0) || (strlen($dab)==0) || (strlen($trawy)==0) || (strlen($babka_lancetowata)==0) || (strlen($szczaw)==0) || (strlen($pokrzywa)==0) || (strlen($komosa)==0) || (strlen($bylica)==0) || (strlen($ambrozja)==0) || (strlen($cladosporium)==0) || (strlen($alternaria)==0)) //sprawdza czy zostaly wypelnione pola
+        if((strlen($leszczyna)==0) || (strlen($olsza)==0) || (strlen($brzoza)==0) || (strlen($topola)==0) || (strlen($dab)==0) || (strlen($trawy)==0) || (strlen($babka_lancetowata)==0) || (strlen($szczaw)==0) || (strlen($pokrzywa)==0) || (strlen($komosa)==0) || (strlen($bylica)==0) || (strlen($ambrozja)==0) || (strlen($cladosporium)==0) || (strlen($alternaria)==0) || (strlen($date)==0)) //sprawdza czy zostaly wypelnione pola
         {
            $wszystko_ok=false;
            $_SESSION['error_nazwisko']='<div class="col-sm-12 alert alert-info">Wypełnij wszystkie pola alergenów!</div>';
@@ -62,7 +63,7 @@
                 {
                     if($polaczenie->query("INSERT INTO ige (ID_ige, ID_user) SELECT NULL, ID FROM users WHERE imie='".$_SESSION['imieview']."' AND nazwisko='".$_SESSION['nazwiskoview']."'"))
                     {
-                        if($polaczenie->query("UPDATE ige SET leszczyna='$leszczyna', olsza='$olsza', brzoza='$brzoza', topola='$topola', dab='$dab', trawy='$trawy', babka_lancetowata='$babka_lancetowata', szczaw='$szczaw', pokrzywa='$pokrzywa', komosa='$komosa', bylica='$bylica', ambrozja='$ambrozja', cladosporium='$cladosporium', alternaria='$alternaria', analiza='$analiza' ORDER BY ID_ige DESC LIMIT 1"))
+                        if($polaczenie->query("UPDATE ige SET leszczyna='$leszczyna', olsza='$olsza', brzoza='$brzoza', topola='$topola', dab='$dab', trawy='$trawy', babka_lancetowata='$babka_lancetowata', szczaw='$szczaw', pokrzywa='$pokrzywa', komosa='$komosa', bylica='$bylica', ambrozja='$ambrozja', cladosporium='$cladosporium', alternaria='$alternaria', analiza='$analiza', data='$date' ORDER BY ID_ige DESC LIMIT 1"))
                         {
                             $_SESSION['gut']='<div class="col-sm-12 alert alert-success">Dane zostały dodane prawidłowo!</div>';        
                         }
@@ -181,6 +182,10 @@
 
                                             <label class="control-label col-md-5">Analiza wyników:</label>
                                             <div class="col-md-12"><input type="text" name="analiza" class="form-control" id="analiza" data-rule="minlen:4" /></div>
+                                            
+                                            <label class="control-label col-md-12"></label>       
+                                            <label class="control-label col-md-2">Data badania:</label>
+                                            <div class="col-md-3"><input type="date" name="date" class="form-control" id="date" data-rule="minlen:4" /></div>
                                             <label class="control-label col-md-12"></label>
                                             <div class="form-action">
                                                 <input type="submit" class="btn btn-form control-label col-md-2" name="submit" value="Dodaj wyniki badań">
@@ -279,7 +284,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        © Copyright Medilab Theme. All Rights Reserved
+                        © Copyright Poradnia alergologiczna. Implemented by Kamil Janikowski.
                         <div class="credits">
                             <!--
                 All the links in the footer should remain intact.
