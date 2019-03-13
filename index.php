@@ -7,7 +7,7 @@
         exit();
     }
 
-
+    // @@@@@@@@@@@@@@@@@@@@  KOD PHP DO REJESTRACJI     @@@@@@@@@@@@@@@@@@@@@
    if(isset($_POST['mail']))  //isset sprawdza czy mamy ustawioną zmienną, do rejestracji
     {
          
@@ -195,7 +195,8 @@
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
-    <!--navbar-->
+   
+    <!--@@@@@@@@  NAVBAR,  NAGLOWEK  @@@@@@@@@@@@@-->
     <section id="banner" class="banner">
         <div class="bg-color">
             <nav class="navbar navbar-default navbar-fixed-top">
@@ -230,7 +231,7 @@
                             <img src="img/logo.png" class="img-responsive">
                         </div>
                         <div class="banner-text text-center">
-                            <br/><br/><br/><br/><h3 class="white no-padding" >Jakis napis cos tu bedzie <br> ale nie wiem co.</h3>
+                            <br/><br/><br/><br/><h3 class="white no-padding" >Witamy na stronie naszej <br> kliniki alergologicznej</h3>
                         </div>
                         <div class="overlay-detail text-center">
                             <a href="#service"><i class="fa fa-angle-down"></i></a>
@@ -240,10 +241,10 @@
             </div>
         </div>
     </section>
-    <!--/navbar-->
+    <!--/-->
     
     
-    <!--services-->
+    <!--@@@@@@@@  INFO NA TEMAT KLINIKI  @@@@@@@@@@@@@-->
     <section id="service" class="section-padding">
         <div class="container">
             <div class="row">
@@ -295,10 +296,10 @@
             </div>
         </div>
     </section>
-    <!--/services-->
+    <!--/-->
     
     
-    <!--news-->
+    <!--@@@@@@@@  NEWS, GODZINY OTWARCIA  @@@@@@@@@@@@@-->
     <section id="cta-1" class="section-padding">
         <div class="container">
             <div class="row">
@@ -307,14 +308,14 @@
                         <div class="mt-boxy-color"></div>
                         <div class="medi-info">
                             <h3>Aktualności - 25.11.2018</h3>
-                            <p>I am text block. Edit this text from Appearance / Customize / Homepage header columns. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             <a href="#" class="medi-info-btn">Przeczytaj więcej</a>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4">
                         <div class="medi-info">
                             <h3>Aktualności - 04.09.201</h3>
-                            <p>I am text block. Edit this text from Appearance / Customize / Homepage header columns. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                             <a href="#" class="medi-info-btn">Przeczytaj więcej</a>
                         </div>
                     </div>
@@ -344,10 +345,10 @@
             </div>
         </div>
     </section>
-    <!--news-->
+    <!--/-->
     
     
-    <!--about-->
+    <!--@@@@@@@@  POZNAJ NASZ SYSTEM  @@@@@@@@@@@@@-->
     <section id="about" class="section-padding">
         <div class="container">
             <div class="row">
@@ -380,10 +381,10 @@
             </div>
         </div>
     </section>
-    <!--/ about-->
+    <!--/-->
 
    
-    <!--panel-->
+    <!--@@@@@@@@  LOGOWANIE  @@@@@@@@@@@@@-->
     <section id="panel" class="section-padding">
         <div class="container">
             <div class="row">
@@ -395,8 +396,6 @@
                     <div class="contact-info">
                         <h3 class="cnt-ttl">Zaloguj się do panelu użytkownika.</h3>
                         <div class="space"></div>
-                        <div id="sendmessage">Your message has been sent. Thank you!</div>
-                        <div id="errormessage"></div>
                         <form action="zaloguj.php" method="post">
                             <div class="form-group">
                                 <label class="control-label col-sm-2">Login:</label>
@@ -426,29 +425,29 @@
             </div>
         </div>
     </section>
-    <!--/ panel-->
+    <!--/-->
 
    
-    <!--cta 2-->
+    <!--@@@@@@@@  WSTEP DO REJESTRACJI  @@@@@@@@@@@@@-->
     <section id="cta-2" class="section-padding">
         <div class="container">
             <div class=" row">
-                <div class="col-md-2"></div>
-                <div class="text-right-md col-md-4 col-sm-4">
+                <div class="col-md-1"></div>
+                <div class="text-right-md col-md-5 col-sm-4">
                     <h2 class="section-title white lg-line">« Nie masz konta?<br> « Zarejestruj się już teraz!</h2>
                 </div>
-                <div class="col-md-4 col-sm-5">
-                    Tworząc u nas konto masz możliwość przejżeć swoje wyniki badań, opinie lekarza czy zapisać się na najbliższe badanie. TO TRZEBA POPRAWIC
+                <div class="col-md-5 col-sm-5">
+                    Tworząc u nas konto masz możliwość przejżeć swoje wyniki badań, opinie lekarza, analizę systemu czy zapisać się na najbliższe badanie.
                     <p class="text-right text-primary"><i>— Poradnia Alergologiczna</i></p>
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-1"></div>
             </div>
         </div>
     </section>
-    <!--cta-->
+    <!--/-->
 
    
-    <!--registration-->
+    <!--@@@@@@@@  REJESTRACJA @@@@@@@@@@@@@-->
     <section id="registration" class="section-padding">
         <div class="container">
             <div class="row">
@@ -642,10 +641,10 @@
             </div>
         </div>
     </section>
-    <!-- /registration-->
+    <!-- /-->
 
    
-    <!--footer-->
+    <!--@@@@@@@@  STOPKA  @@@@@@@@@@@@@-->
     <footer id="footer">
         <div class="top-footer">
             <div class="container">
@@ -715,7 +714,7 @@
             </div>
         </div>
     </footer>
-    <!--/ footer-->
+    <!--/-->
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="js/jquery.min.js"></script>

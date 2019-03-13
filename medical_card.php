@@ -10,10 +10,10 @@
         header('Location: index.php');
         exit();
     }
-    if(isset($_POST['submit'])) //  do dodawania analizy
+    if(isset($_POST['submit'])) // @@@@@@@@@ DODAWANIE ANALIZY
     {
         $example=htmlspecialchars($_POST['example']);
-        $data=htmlspecialchars($_POST['data']);
+        $data=date("Y-m-d");
         require_once"connect.php";
         $conn = new mysqli($host, $db_user, $db_password, $db_name);
         if ($conn->connect_error) 
@@ -32,7 +32,74 @@
         }
         $conn->close();
     }
- 
+    // @@@@@@@@@@ DO WYKRESU @@@@@@@@@@@@
+    require_once"connect.php";
+    $conn = new mysqli($host, $db_user, $db_password, $db_name);
+    if ($conn->connect_error) 
+    {
+        printf("Connection failed: " . $conn->connect_error);
+        exit();
+    }
+    $sql = "SELECT data FROM ige, users WHERE ID_user=ID AND imie='".$_SESSION['imieview']."' AND nazwisko='".$_SESSION['nazwiskoview']."' ";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 1) 
+    {
+        $sql = "SELECT data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige, users WHERE ID_user=ID AND imie='".$_SESSION['imieview']."' AND nazwisko='".$_SESSION['nazwiskoview']."' ORDER BY data ASC";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) 
+        {
+            while($row = $result->fetch_assoc()) 
+            {
+                $data1=$row["data"];
+                $dataPoints1 = array(
+                    array("label"=> "Leszczyna", "y"=> $row["leszczyna"]),
+                    array("label"=> "Olsza", "y"=> $row["olsza"]),
+                    array("label"=> "Brzoza", "y"=> $row["brzoza"]),
+                    array("label"=> "Topola", "y"=> $row["topola"]),
+                    array("label"=> "Dąb", "y"=> $row["dab"]),
+                    array("label"=> "Trawy", "y"=> $row["trawy"]),
+                    array("label"=> "Babka lancetowata", "y"=> $row["babka_lancetowata"]),
+                    array("label"=> "Szczaw", "y"=> $row["szczaw"]),
+                    array("label"=> "Pokrzywa", "y"=> $row["pokrzywa"]),
+                    array("label"=> "Komosa", "y"=> $row["komosa"]),
+                    array("label"=> "Bylica", "y"=> $row["bylica"]),
+                    array("label"=> "Ambrozja", "y"=> $row["ambrozja"]),
+                    array("label"=> "Cladosporium", "y"=> $row["cladosporium"]),
+                    array("label"=> "Alternaria", "y"=> $row["alternaria"])
+                );
+            }
+        }
+        $sql = "SELECT data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige, users WHERE ID_user=ID AND imie='".$_SESSION['imieview']."' AND nazwisko='".$_SESSION['nazwiskoview']."' ORDER BY data DESC";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) 
+        {
+            while($row = $result->fetch_assoc()) 
+            {
+                $data2=$row["data"];
+                $dataPoints2 = array(
+                    array("label"=> "Leszczyna", "y"=> $row["leszczyna"]),
+                    array("label"=> "Olsza", "y"=> $row["olsza"]),
+                    array("label"=> "Brzoza", "y"=> $row["brzoza"]),
+                    array("label"=> "Topola", "y"=> $row["topola"]),
+                    array("label"=> "Dąb", "y"=> $row["dab"]),
+                    array("label"=> "Trawy", "y"=> $row["trawy"]),
+                    array("label"=> "Babka lancetowata", "y"=> $row["babka_lancetowata"]),
+                    array("label"=> "Szczaw", "y"=> $row["szczaw"]),
+                    array("label"=> "Pokrzywa", "y"=> $row["pokrzywa"]),
+                    array("label"=> "Komosa", "y"=> $row["komosa"]),
+                    array("label"=> "Bylica", "y"=> $row["bylica"]),
+                    array("label"=> "Ambrozja", "y"=> $row["ambrozja"]),
+                    array("label"=> "Cladosporium", "y"=> $row["cladosporium"]),
+                    array("label"=> "Alternaria", "y"=> $row["alternaria"])
+                );
+            }
+        }
+    }
+    else
+    {
+        $_SESSION['error69']='<div class="col-sm-12 alert alert-info">Brak wykonanych dwóch badań alergicznych!</div>';
+    }
+    $conn->close();       
 ?>
 
 <!DOCTYPE html>
@@ -52,9 +119,52 @@
     <script>// odswieze strone raz
         if(!location.search)setTimeout("location.replace(location.href+'?+')",10)
     </script>
-   
+    <!-- @@@@@@@@@@ WYKRES SCRIPT @@@@@@@@@@-->
+    <script>
+    window.onload = function () {
 
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2",
+        title:{
+            text: "Porównanie wyników badań z dnia <?php echo "".$data1.""; ?> oraz <?php echo "".$data2.""; ?>"
+        },
+        legend:{
+            cursor: "pointer",
+            verticalAlign: "center",
+            horizontalAlign: "right",
+            itemclick: toggleDataSeries
+        },
+        data: [{
+            type: "column",
+            name: "<?php echo "".$data1.""; ?>",
+            indexLabel: "{y}",
+            yValueFormatString: "#0.## kU/I",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPoints1, JSON_NUMERIC_CHECK); ?>
+        },{
+            type: "column",
+            name: "<?php echo "".$data2.""; ?>",
+            indexLabel: "{y}",
+            yValueFormatString: "#0.## kU/I",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPoints2, JSON_NUMERIC_CHECK); ?>
+        }]
+    });
+    chart.render();
 
+    function toggleDataSeries(e){
+        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+        }
+        else{
+            e.dataSeries.visible = true;
+        }
+        chart.render();
+    }
+
+    }
+    </script> 
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -73,6 +183,7 @@
                 <div class="collapse navbar-collapse navbar-right" id="myNavbar">
                     <ul class="nav navbar-nav">
                         <li class=""><a href="panel_doctor.php">Panel lekarza</a></li>
+                        <li class=""><a href="stat.php">Statystyki pacjentów</a></li>
                         <li class=""><a href="logout.php">Wyloguj się</a></li>
                     </ul>
                 </div>
@@ -94,22 +205,22 @@
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div style="visibility: visible;" class="col-sm-12 more-features-box">
                                 <div class="more-features-box-text h4">
-
                                     <div class="panel-body">
-                                        <!-- Nav tabs -->
+                                        <!-- NAGLOWKI ZAKLADEK -->
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#home" data-toggle="tab">Wyniki badań</a>
                                             </li>
                                             <li><a href="#profile" data-toggle="tab">Analiza</a>
                                             </li>
+                                            <li><a href="#stats" data-toggle="tab">Porównanie wyników</a>
+                                            </li>
                                             <li><a href="#messages" data-toggle="tab">Wnioski lekarza</a>
                                             </li>
-                                            <li><a href="#other" data-toggle="tab">Ogólna analiza pacjentów</a>
-                                            </li>
                                         </ul>
-                                        <!-- Tab panes -->
+                                        <!-- ZAWARTOSC NAGLOWKOW -->
                                         <div class="tab-content">
-                                            <div class="tab-pane fade in active" id="home"> <!-- WYNIKI BADAN @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                                           <!--@@@@@@@@@@@@@@ WYNIKI BADAN @@@@@@@@@@@@@@@ -->
+                                            <div class="tab-pane fade in active" id="home"> 
                                                 <?php
                                                 require_once"connect.php";
                                                 $conn = new mysqli($host, $db_user, $db_password, $db_name);
@@ -341,17 +452,18 @@
                                                 ?>
                                             </div>
 
-                                            <div class="tab-pane fade" id="profile"> <!-- ANALIZA @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                                           <!--@@@@@@@@@@@@@@ ANALIZA GRUPOWA @@@@@@@@@@@@@@@ -->
+                                            <div class="tab-pane fade" id="profile">
+                                               <h3>Komputerowa analiza ostatnich wykonanych wyników badań</h3>
+                                               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam illum itaque est tempore sit deleniti, magni harum vel maxime, possimus natus tempora aliquam doloremque tenetur quos eaque. Dolorem, dolorum, saepe!</p> 
                                                 <?php
-                                                $sql = "SELECT data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige, users WHERE ID_user=ID AND imie='".$_SESSION['imieview']."' AND nazwisko='".$_SESSION['nazwiskoview']."' ORDER BY data DESC LIMIT 1";
+                                                $sql = "SELECT data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige, users WHERE ID_user=ID AND imie='".$_SESSION['imieview']."' AND nazwisko='".$_SESSION['nazwiskoview']."' ORDER BY data DESC";
                                                 $result = $conn->query($sql);
                                                 if ($result->num_rows > 0) 
                                                 {
                                                     while($row = $result->fetch_assoc()) 
                                                     {
-                                                        echo "<br/><h3>Komputerowa analiza ostatnich wykonanych wyników badań z dnia: <mark>".$row["data"]."</mark></h3>";
-                                                        echo "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam illum itaque est tempore sit deleniti, magni harum vel maxime, possimus natus tempora aliquam doloremque tenetur quos eaque. Dolorem, dolorum, saepe!</p>";
-
+                                                        echo "<br/><h3>- data badania: <mark>".$row["data"]."</mark></h3>";
                                                         ?>
                                                         <div class="panel-body">
                                                         <div class="row">
@@ -385,7 +497,7 @@
                                                                 <div class="alert alert-info text-center">
                                                                     <h4>Umiarkowane stężenie alergenu</h4> 
                                                                     <hr />
-                                                                    <h4>Niskie prawdopodobieństwo wystąpienia objawów uczulenia</h4> 
+                                                                    <h4>Umiarkowane prawdopodobieństwo wystąpienie objawów uczulenia</h4> 
                                                                     <hr />
                                                                     <h4>Alergeny:</h4>
                                                                     <?php 
@@ -444,7 +556,8 @@
                                                 
                                             </div>
 
-                                            <div class="tab-pane fade" id="messages">  <!-- WNIOSKI LEKARZA @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+                                           <!--@@@@@@@@@@@@@@ WNIOSKI LEKARZA @@@@@@@@@@@@@@ -->
+                                            <div class="tab-pane fade" id="messages">  
                                                 <h3>Wnioski lekarza</h3>
                                                 <?php
                                                 $conn = new mysqli($host, $db_user, $db_password, $db_name);
@@ -474,8 +587,6 @@
                                                 <form action="<?php ?>" method="post">
                                                     <div class="form-group">
                                                         <label for="example">Uzupełnij diagnozę o dodatkowe wnioski:</label>
-                                                        <input type="text" name="data" class="form-control" id="data" placeholder="Bieżąca data" />
-                                                        <label class="control-label col-md-12"></label>
                                                         <textarea name="example" class="form-control" rows="4" placeholder="Wpis do karty"></textarea>
                                                         <div class="form-action">
                                                             <label class="control-label col-md-12"></label>
@@ -496,135 +607,19 @@
                                                         </div>
                                                     </div>
                                                 </form>
-                                            </div>
-                                            <div class="tab-pane fade" id="other"> <!-- STATYSTYKI @@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-                                                <h3>Statystyki wyników badań wszystkich pacjentów naszej poradni</h3>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam illum itaque est tempore sit deleniti, magni harum vel maxime, possimus natus tempora aliquam doloremque tenetur quos eaque. Dolorem, dolorum, saepe!</p>
+                                            </div>                                    
+                                        
+                                           <!--@@@@@@@@@@@@@@ POROWNANIE DWÓCH BADAN @@@@@@@@@@@@@@ -->
+                                            <div class="tab-pane fade" id="stats">  
                                                 <?php
-                                                $sql = "SELECT ROUND(AVG(leszczyna),2) AS stat, ROUND(AVG(olsza),2) AS stat2, ROUND(AVG(brzoza),2) AS stat3, ROUND(AVG(topola),2) AS stat4, ROUND(AVG(dab),2) AS stat5, ROUND(AVG(trawy),2) AS stat6, ROUND(AVG(babka_lancetowata),2) AS stat7, ROUND(AVG(szczaw),2) AS stat8, ROUND(AVG(pokrzywa),2) AS stat9, ROUND(AVG(komosa),2) AS stat10, ROUND(AVG(bylica),2) AS stat11, ROUND(AVG(ambrozja),2) AS stat12, ROUND(AVG(cladosporium),2) AS stat13, ROUND(AVG(alternaria),2) AS stat14 FROM ige ";
-                                                $result = $conn->query($sql);
-                                                if ($result->num_rows > 0) 
+                                                if(isset($_SESSION['error69']))
                                                 {
-                                                    while($row = $result->fetch_assoc()) 
-                                                    {?>
-                                                       <label class="col-md-3"><h4>Leszczyna - <?php echo "".$row["stat"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                          
-                                                          <label class="col-md-3"><h4>Olsza - <?php echo "".$row["stat2"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat2"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                        
-                                                        <label class="col-md-3"><h4>Brzoza - <?php echo "".$row["stat3"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat3"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Topola - <?php echo "".$row["stat4"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat4"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>   
-                                                                                                             
-                                                        <label class="col-md-3"><h4>Dąb - <?php echo "".$row["stat5"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat5"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Trawy - <?php echo "".$row["stat6"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat6"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Babka lancetowata - <?php echo "".$row["stat7"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat7"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Szczaw - <?php echo "".$row["stat8"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat8"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Pokrzywa - <?php echo "".$row["stat9"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat9"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Komosa - <?php echo "".$row["stat10"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat10"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Bylica - <?php echo "".$row["stat11"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat11"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Ambrozja - <?php echo "".$row["stat12"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat12"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Cladosporium - <?php echo "".$row["stat13"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat13"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                                                                                
-                                                        <label class="col-md-3"><h4>Alternaria - <?php echo "".$row["stat14"]." kU/I"; ?></h4></label>
-                                                       <label class="col-md-7">
-                                                        <div class="panel-body">
-                                                            <div class="progress">
-                                                                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo "".$row["stat14"]."%"; ?>;"></div>
-                                                            </div>
-                                                        </div></label>
-                                                    <?php
-                                                    }
-                                                } else 
-                                                {
-                                                    echo "<p> - Brak analizy.</p><br/>";                                 
+                                                    echo'<br/><br/><div class="error">'.$_SESSION['error69'].'</div>';
+                                                    unset($_SESSION['error69']); 
                                                 }
-                                                ?>
+                                                ?>  
+                                                <br/><br/><div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                                <script src="js/canvasjs.min.js"></script>
                                             </div> 
                                         </div>
                                     </div>
@@ -673,6 +668,7 @@
                         <div class="info-sec">
                             <ul class="quick-info">
                                 <li><a href="panel_doctor.php"><i class="fa fa-circle"></i>Panel lekarza</a></li>
+                                <li><a href="stat.php"><i class="fa fa-circle"></i>Statystyki pacjentów</a></li>
                                 <li><a href="logout.php"><i class="fa fa-circle"></i>Wyloguj się</a></li>
                             </ul>
                         </div>

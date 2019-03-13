@@ -10,6 +10,74 @@
         header('Location: index.php');
         exit();
     }
+    // @@@@@@@@@@ DO WYKRESU @@@@@@@@@@@@
+    require_once"connect.php";
+    $conn = new mysqli($host, $db_user, $db_password, $db_name);
+    if ($conn->connect_error) 
+    {
+        printf("Connection failed: " . $conn->connect_error);
+        exit();
+    }    
+    $sql = "SELECT data FROM ige WHERE ID_user='".$_SESSION['ID']."' ";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 1) 
+    {
+        $sql = "SELECT data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige, users WHERE ID_user='".$_SESSION['ID']."' ORDER BY data ASC";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) 
+        {
+            while($row = $result->fetch_assoc()) 
+            {
+                $data1=$row["data"];
+                $dataPoints1 = array(
+                    array("label"=> "Leszczyna", "y"=> $row["leszczyna"]),
+                    array("label"=> "Olsza", "y"=> $row["olsza"]),
+                    array("label"=> "Brzoza", "y"=> $row["brzoza"]),
+                    array("label"=> "Topola", "y"=> $row["topola"]),
+                    array("label"=> "Dąb", "y"=> $row["dab"]),
+                    array("label"=> "Trawy", "y"=> $row["trawy"]),
+                    array("label"=> "Babka lancetowata", "y"=> $row["babka_lancetowata"]),
+                    array("label"=> "Szczaw", "y"=> $row["szczaw"]),
+                    array("label"=> "Pokrzywa", "y"=> $row["pokrzywa"]),
+                    array("label"=> "Komosa", "y"=> $row["komosa"]),
+                    array("label"=> "Bylica", "y"=> $row["bylica"]),
+                    array("label"=> "Ambrozja", "y"=> $row["ambrozja"]),
+                    array("label"=> "Cladosporium", "y"=> $row["cladosporium"]),
+                    array("label"=> "Alternaria", "y"=> $row["alternaria"])
+                );
+            }
+        }
+        $sql = "SELECT data, leszczyna, olsza, brzoza, topola, dab, trawy, babka_lancetowata, szczaw, pokrzywa, komosa, bylica, ambrozja, cladosporium, alternaria FROM ige, users WHERE ID_user='".$_SESSION['ID']."' ORDER BY data DESC";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) 
+        {
+            while($row = $result->fetch_assoc()) 
+            {
+                $data2=$row["data"];
+                $dataPoints2 = array(
+                    array("label"=> "Leszczyna", "y"=> $row["leszczyna"]),
+                    array("label"=> "Olsza", "y"=> $row["olsza"]),
+                    array("label"=> "Brzoza", "y"=> $row["brzoza"]),
+                    array("label"=> "Topola", "y"=> $row["topola"]),
+                    array("label"=> "Dąb", "y"=> $row["dab"]),
+                    array("label"=> "Trawy", "y"=> $row["trawy"]),
+                    array("label"=> "Babka lancetowata", "y"=> $row["babka_lancetowata"]),
+                    array("label"=> "Szczaw", "y"=> $row["szczaw"]),
+                    array("label"=> "Pokrzywa", "y"=> $row["pokrzywa"]),
+                    array("label"=> "Komosa", "y"=> $row["komosa"]),
+                    array("label"=> "Bylica", "y"=> $row["bylica"]),
+                    array("label"=> "Ambrozja", "y"=> $row["ambrozja"]),
+                    array("label"=> "Cladosporium", "y"=> $row["cladosporium"]),
+                    array("label"=> "Alternaria", "y"=> $row["alternaria"])
+                );
+            }
+        }
+    }
+    else
+    {
+        $_SESSION['error69']='<div class="col-sm-12 alert alert-info">Brak wykonanych dwóch badań alergicznych!</div>';
+    }
+    $conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +97,52 @@
     <script>// odswieze strone raz
         if(!location.search)setTimeout("location.replace(location.href+'?+')",10)
     </script>
+    <!-- @@@@@@@@@@ WYKRES SCRIPT @@@@@@@@@@-->
+    <script>
+    window.onload = function () {
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2",
+        title:{
+            text: "Porównanie wyników badań z dnia <?php echo "".$data1.""; ?> oraz <?php echo "".$data2.""; ?>"
+        },
+        legend:{
+            cursor: "pointer",
+            verticalAlign: "center",
+            horizontalAlign: "right",
+            itemclick: toggleDataSeries
+        },
+        data: [{
+            type: "column",
+            name: "<?php echo "".$data1.""; ?>",
+            indexLabel: "{y}",
+            yValueFormatString: "#0.## kU/I",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPoints1, JSON_NUMERIC_CHECK); ?>
+        },{
+            type: "column",
+            name: "<?php echo "".$data2.""; ?>",
+            indexLabel: "{y}",
+            yValueFormatString: "#0.## kU/I",
+            showInLegend: true,
+            dataPoints: <?php echo json_encode($dataPoints2, JSON_NUMERIC_CHECK); ?>
+        }]
+    });
+    chart.render();
+
+    function toggleDataSeries(e){
+        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+            e.dataSeries.visible = false;
+        }
+        else{
+            e.dataSeries.visible = true;
+        }
+        chart.render();
+    }
+
+    }
+    </script> 
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -133,6 +247,8 @@
                                                 <li class="active"><a href="#home" data-toggle="tab">Wyniki badań</a>
                                                 </li>
                                                 <li><a href="#profile" data-toggle="tab">Analiza</a>
+                                                </li>
+                                                <li><a href="#stats" data-toggle="tab">Porównanie wyników</a>
                                                 </li>
                                                 <li><a href="#messages" data-toggle="tab">Wnioski lekarza</a>
                                                 </li>
@@ -472,6 +588,20 @@
                                           
                                                 
                                                 </div>
+                                                
+                                                <!--@@@@@@@@@@@@@@ POROWNANIE DWÓCH BADAN @@@@@@@@@@@@@@ -->
+                                                <div class="tab-pane fade" id="stats">  
+                                                    <?php
+                                                    if(isset($_SESSION['error69']))
+                                                    {
+                                                        echo'<br/><br/><div class="error">'.$_SESSION['error69'].'</div>';
+                                                        unset($_SESSION['error69']); 
+                                                    }
+                                                    ?>                                                    
+                                                    <br/><br/><div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                                                    <script src="js/canvasjs.min.js"></script>
+                                                </div> 
+                                                
                                                 <!-- WNIOSKI LEKARZA -->
                                                 <div class="tab-pane fade" id="messages">
                                                 <h3>Wnioski lekarza</h3>

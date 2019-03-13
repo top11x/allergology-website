@@ -10,7 +10,7 @@
         header('Location: index.php');
         exit();
     }
-    if(isset($_POST['submit'])) //  do dodawania badań
+    if(isset($_POST['submit'])) //  @@@@@@@@@@@@@@ DODAWANIE BADAN
     {
         $wszystko_ok=true;  
         $leszczyna=$_POST['leszczyna'];
@@ -96,7 +96,8 @@
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
-    <!--navbar-->
+   
+    <!--@@@@@@@@  NAVBAR,  NAGLOWEK  @@@@@@@@@@@@@-->
     <nav class="navbar-default bg-color-2">
         <div class="container">
             <div class="col-md-12">
@@ -110,16 +111,15 @@
                 </div>
                 <div class="collapse navbar-collapse navbar-right" id="myNavbar">
                     <ul class="nav navbar-nav">
-                        <li class=""><a href="panel_doctor.php">Panel lekarza</a></li>
                         <li class=""><a href="logout.php">Wyloguj się</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    <!--navbar-->
+    <!--/-->
 
-    <!--about-->
+    <!--@@@@@@@@  ZAWARTOSC, ADD IGE  @@@@@@@@@@@@@-->
     <section id="about" class="section-padding">
         <div class="container">
             <div class="row">
@@ -188,7 +188,7 @@
                                             <div class="col-md-3"><input type="date" name="date" class="form-control" id="date" data-rule="minlen:4" /></div>
                                             <label class="control-label col-md-12"></label>
                                             <div class="form-action">
-                                                <input type="submit" class="btn btn-form control-label col-md-2" name="submit" value="Dodaj wyniki badań">
+                                                <input type="submit" class="btn btn-form control-label col-md-3" name="submit" value="Dodaj wyniki badań">
                                                 <?php 
                                                 if(isset($_SESSION['gut']))
                                                 {
@@ -228,10 +228,9 @@
             </div>
         </div>
     </section>
-    <!--/ about-->
+    <!--/-->
 
-
-    <!--footer-->
+    <!--@@@@@@@@  STOPKA  @@@@@@@@@@@@@-->
     <footer id="footer">
         <div class="top-footer">
             <div class="container">
@@ -264,7 +263,6 @@
                         </div>
                         <div class="info-sec">
                             <ul class="quick-info">
-                                <li><a href="panel_doctor.php"><i class="fa fa-circle"></i>Panel lekarza</a></li>
                                 <li><a href="logout.php"><i class="fa fa-circle"></i>Wyloguj się</a></li>
                             </ul>
                         </div>
@@ -299,7 +297,7 @@
             </div>
         </div>
     </footer>
-    <!--/ footer-->
+    <!--/-->
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="js/jquery.min.js"></script>

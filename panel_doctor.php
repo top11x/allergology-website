@@ -72,6 +72,7 @@
                         <div class="collapse navbar-collapse navbar-right" id="myNavbar">
                             <ul class="nav navbar-nav">
                                 <li class=""><a href="panel_doctor.php">Panel lekarza</a></li>
+                                <li class=""><a href="stat.php">Statystyki pacjentów</a></li>
                                 <li class=""><a href="logout.php">Wyloguj się</a></li>
                             </ul>
                         </div>
@@ -94,21 +95,8 @@
                                     <div class="more-features-box-text-icon"> <i class="fa fa-angle-right" aria-hidden="true"></i> </div>
                                     <div class="more-features-box-text-description">
                                     <?php
-                                        echo "<h3><b>Witaj doktorze </b>".$_SESSION['imie']." ".$_SESSION['nazwisko']."</h3>";   
-                                        ?>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et. Ut wisi enim ad minim veniam, quis nostrud.</p>
-                                    </div>
-                                </div>
-                                <label class="control-label col-md-12"></label>                                               
-                                <label class="control-label col-md-12"></label>
-                                <label class="control-label col-md-12"></label>
-                                <label class="control-label col-md-12"></label>
-                                <label class="control-label col-md-12"></label>
-                                <div class="more-features-box-text">
-                                    <div class="more-features-box-text-icon"> <i class="fa fa-angle-right" aria-hidden="true"></i> </div>
-                                    <div class="more-features-box-text-description">
-                                        <h3>Lista umówionych spotkań z pacjentami.</h3>
-                                        <p>Poniżej możesz podejrzeń twoje nadchodzące umówione badania z pacjentami.</p><br/>
+                                        echo "<h3><b>Witaj doktorze </b><mark>".$_SESSION['imie']." ".$_SESSION['nazwisko']."</mark>. Lista twoich umówionych spotkań z pacjentami.</h3>";   
+                                        ?>                                        <p>Poniżej możesz podejrzeń twoje nadchodzące umówione badania z pacjentami.</p><br/>
                                         <?php
                                             require_once "connect.php";
                                             $conn = new mysqli($host, $db_user, $db_password, $db_name);
@@ -141,11 +129,13 @@
                                         ?>
                                     </div>
                                 </div>
+                                
                                 <label class="control-label col-md-12"></label>                                               
                                 <label class="control-label col-md-12"></label>
                                 <label class="control-label col-md-12"></label>
                                 <label class="control-label col-md-12"></label>
-                                <label class="control-label col-md-12"></label> 
+                                <label class="control-label col-md-12"></label>  
+                                
                                 <div class="more-features-box-text">
                                     <div class="more-features-box-text-icon"> <i class="fa fa-angle-right" aria-hidden="true"></i> </div>
                                     <div class="more-features-box-text-description">
@@ -169,14 +159,11 @@
                                                     unset($_SESSION['error_view']); 
                                                 }
                                                 ?>
-                                                <label class="control-label col-md-12"></label>                                               <label class="control-label col-md-12"></label>
-                                                <label class="control-label col-md-12"></label>
-                                                <label class="control-label col-md-12"></label>
-                                                <label class="control-label col-md-12"></label>      
+                                                 
                                             </div>
                                         </form>
                                     </div>
-                                </div>           
+                                </div>                                 
                             </div>
                         </div>
                     </div>
@@ -219,6 +206,7 @@
                         <div class="info-sec">
                             <ul class="quick-info">
                                 <li><a href="panel_doctor.php"><i class="fa fa-circle"></i>Panel lekarza</a></li>
+                                <li><a href="stat.php"><i class="fa fa-circle"></i>Statystyki pacjentów</a></li>
                                 <li><a href="logout.php"><i class="fa fa-circle"></i>Wyloguj się</a></li>
                             </ul>
                         </div>
